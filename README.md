@@ -1,39 +1,113 @@
-## Advanced Lane Finding
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+# self Driving car Advanced Lane line 
 
 
-In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
 
-Creating a great writeup:
----
-A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
+#### The aim of the project 
+     * Using computer vision for various taskes 
+        1 Measuring distortion
+        2 Calibrating Camera
+        3 Correction for distortion
+        5 Use color transforms
+        6 Apply a perspective transform to rectify binary image ("birds-eye view")
+        7 Detect lane pixels and fit to find the lane boundary
+        8 Determine the curvature of the lane
+        9 Warp the detected lane boundaries back onto the original image
+        10 O/P the lane image with estimates of curved and boundary defined for accurate path for car to stay on the
+        path 
+    
+    
+-----    
+            
+#### Rubric Point
+    * Here I will consider the rubric points individually and describe how I addressed each point in my 
+      implementation.
+      
+##### File Submission and Code qualiy
+    
+    File submission inculde all the required files that are necessary to quialy the project submission
+    
+       1) project.ipynb
+       2) Readme.md
+       3) Writeup.up
+    
+#### Below are the steps described individually that are implement in the project 
+        
+        1) Finding corners
+        
+        2) Camera calibration
 
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
+        4) Perspective Transform to bird's eye view
+        
+        5) Binary lane line image using gradient and color transforms
+        
+        6) Sobel Utilisation
+        
+        6) Identifying lane line pixels using sliding windows
 
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
+        7) Extracting the local curvature of the road and vehicle localization
 
-The Project
----
+        8) Projecting the detected lane lines onto the original image
+        
+        9) Video Processing Pipeline
 
-The goals / steps of this project are the following:
+###### 1) Finding corners
 
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-* Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
-* Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
-* Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
+Corders of the chess board are spoted so that the further calibration can be done.
 
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
 
-To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `ouput_images`, and include a description in your writeup for the project of what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
 
-The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions.  The `harder_challenge.mp4` video is another optional challenge and is brutal!
+##### 2) Camera calibration
 
-If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
+Image distortion occurs when a camera looks at 3D objects in the real world and transforms them into a 2D image; this transformation isn’t perfect. Distortion actually changes what the shape and size of these 3D objects appear to be. So, the first step in analyzing camera images, is to undo this distortion so that you can get correct and useful information out of them.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
+
+####  Test Image Pipeline
+<img src='output_images/undistorted.png' />
+
+##### 3)Example of a distortion corrected image
+Applying the undistortion transformation to a test image yields the following result (left distorted, right corrected) 
+
+<img src="output_images/undistort_traffic_img.png" />
+
+##### 4) Perspective Transform to bird's eye view
+A perspective transform to and from "bird's eye" perspective is done in a function called warp(), The warp() function takes as input an color image (img), as well as the tobird boolean paramter. The parameters src and  dst of the transform.
+
+<img src="output_images/unwarped.png" />
+
+##### 5) Binary lane line image using gradient and color transforms
+
+color traformation was done using RGB , HSV and HLS below is the image porduced after the color transformation
+
+<img src = "output_images/color_depth.png" />
+
+##### 6) Sobel Utilisation
+
+    I used variouts sobel Operators in order to find the image details
+    
+    1) absolute Sobel threshold
+<img src ="output_images/sobel_threshold.png" width='500'/>
+    2. magnitue threshold
+<img src ="output_images/sobel_magnitued.png" width='500'/>
+    3. direction threshold
+<img src ="output_images/sobel_mag_and_dir.png" width='500' />
+
+
+#### Identifying lane line pixels using sliding windows
+
+
+depending upon the threshold the image pixel were recognised and sliding window was implemented in order to get results, The bootom of the image was recognised and pipline filted was run over in order to get the accurate results, further cuvers were recognised on each fram and x along with y value was recognised on which green shade was build over 
+<img src ="output_images/sliding_window_rectangle.png" width='300' />  <img src ="output_images/sliding_window2.png" width='300' />  <img src="output_images/sliding_window_rectangle.png" width="300" />
+
+
+##### 7) mExtracting the local curvature of the road and vehicle localization
+
+The radius of curvature is computed upon calling the Line.update() method of a line. The method that does the computation is called Line.get_radius_of_curvature(). The mathematics involved is summarized in this tutorial here.
+For a second order polynomial f(y)=A y^2 +B y + C the radius of curvature is given by R = [(1+(2 Ay +B)^2 )^3/2]/|2A|.
+
+The distance from the center of the lane is computed in the Line.set_line_base_pos() method, which essentially measures the distance to each lane and computes the position assuming the lane has a given fixed width of 3.7m.
+<img src="output_images/embeding_curv.png" width="300" />
+
+#### Video Processing Pipeline
+
+ALL the gathered knowledge was applied into single piple line and result was achieved 

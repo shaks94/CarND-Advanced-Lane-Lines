@@ -1,4 +1,3 @@
-
 # self Driving car Advanced Lane line 
 
 
@@ -59,7 +58,7 @@ Corders of the chess board are spoted so that the further calibration can be don
 
 ##### 2) Camera calibration
 
-Image distortion occurs when a camera looks at 3D objects in the real world and transforms them into a 2D image; this transformation isn’t perfect. Distortion actually changes what the shape and size of these 3D objects appear to be. So, the first step in analyzing camera images, is to undo this distortion so that you can get correct and useful information out of them.
+Image distortion occurs when a camera looks at 3D objects in the real world and transforms them into a 2D image; this transformation isnâ€™t perfect. Distortion actually changes what the shape and size of these 3D objects appear to be. So, the first step in analyzing camera images, is to undo this distortion so that you can get correct and useful information out of them.
 
 
 
@@ -165,7 +164,7 @@ The goals / steps of this project are the following:
 
 *Camera Calibration
 
-Image distortion occurs when a camera looks at 3D objects in the real world and transforms them into a 2D image; this transformation isn’t perfect. Distortion actually changes what the shape and size of these 3D objects appear to be. So, the first step in analyzing camera images, is to undo this distortion so that you can get correct and useful information out of them.
+Image distortion occurs when a camera looks at 3D objects in the real world and transforms them into a 2D image; this transformation isnâ€™t perfect. Distortion actually changes what the shape and size of these 3D objects appear to be. So, the first step in analyzing camera images, is to undo this distortion so that you can get correct and useful information out of them.
 
 this process is done by converting the image into grey image and then finding the corders , dwaing the corners using cv2.drawChessboardCorners()
 
@@ -293,10 +292,21 @@ usgin function calc_curv_rad_and_center_dist left radius , right radius and cent
 
 Here's a [link to my video result](./project_video.mp4)
 
+
+<video width="320" height="240" controls>
+  <source src="./project_video.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 ---
 
 
+### Soution to problems I faced 
 
-```python
+##### i faced lots of problems but i thing main thing to look at is the portion to unwrap  and pipeline 
 
-```
+##### The thing that worked for me was 
+```python 
+    combined[( ((hls_binary_s == 1)  & (hls_select_L==1) & (mag_thresh_val==1)| (LBThresh_img==1) ) )==1] = 1
+    ```
+    
+and finally i was able to resubmit my code 
